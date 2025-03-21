@@ -32,7 +32,10 @@ class RecipeBook extends StatelessWidget {
             indicatorColor: Colors.white,
             labelColor: Colors.white,
             unselectedLabelColor: Colors.red,
-            tabs: [Tab(icon: Icon(Icons.home), text: 'Home')],
+            tabs: [
+              Tab(icon: Icon(Icons.home), text: 'Home'),
+              Tab(icon: Icon(Icons.person), text: 'Profile'),
+            ],
           ),
         ),
         body: TabBarView(children: [HomeScreen()]),
