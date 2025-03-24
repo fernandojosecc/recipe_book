@@ -62,13 +62,18 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Lasagna',
+                    'Plate: Lasagna',
                     style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
                   ),
-                  SizedBox(height: 4),
-                  Container(height: 2, width: 75, color: Colors.red),
+                  SizedBox(height: 2),
+                  Container(height: 2, width: 190, color: Colors.red),
+                  SizedBox(height: 2),
                   Text(
-                    'Fernando C',
+                    'Chef: Fernando C',
+                    style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
+                  ),
+                  Text(
+                    'Duration: 30 min',
                     style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
                   ),
                   SizedBox(height: 4),
@@ -88,19 +93,32 @@ class RecipeForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(12),
       child: Form(
         // key: _formKey,
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start, //Alineamos verticalmente
           children: [
-            Text(
-              'Add New Recipe',
-              style: TextStyle(color: Colors.orange, fontSize: 24),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Add New Recipe',
+                style: TextStyle(
+                  fontFamily: 'Quicksand',
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
             ),
             SizedBox(height: 16),
             _buildTextField(label: 'Recipe Name'),
+            SizedBox(height: 16),
+            _buildTextField(label: 'Chef Name'),
+            SizedBox(height: 16),
+            _buildTextField(label: 'Ingredients'),
+            SizedBox(height: 16),
+            _buildTextField(label: 'Duration of recipe'),
           ],
         ),
       ),
@@ -111,7 +129,7 @@ class RecipeForm extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(fontFamily: 'Quicksand', color: Colors.orange),
+        labelStyle: TextStyle(fontFamily: 'Quicksand', color: Colors.black),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.orange, width: 1),

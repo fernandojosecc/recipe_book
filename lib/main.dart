@@ -35,6 +35,8 @@ class RecipeBook extends StatelessWidget {
             tabs: [
               Tab(icon: Icon(Icons.home), text: 'Home'),
               Tab(icon: Icon(Icons.person), text: 'Profile'),
+              Tab(icon: Icon(Icons.search), text: 'Search'),
+              Tab(icon: Icon(Icons.exit_to_app), text: 'Exit'),
             ],
           ),
         ),
