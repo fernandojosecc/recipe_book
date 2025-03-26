@@ -6,12 +6,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          _RecipesCard(context),
-          _RecipesCard(context),
-          _RecipesCard(context),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _RecipesCard(context),
+            _RecipesCard(context),
+            _RecipesCard(context),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
@@ -26,12 +28,23 @@ class HomeScreen extends StatelessWidget {
   Future<void> _showBottom(BuildContext context) {
     return showModalBottomSheet(
       context: context,
+      isScrollControlled: true, //permite que el modal tenga mas espacio
       builder:
-          (contexto) => Container(
-            width: MediaQuery.of(context).size.width,
-            height: 500,
-            color: Colors.white,
-            child: RecipeForm(),
+          (contexto) => Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(8.0), //adjusting padding
+                child: const RecipeForm(), //Adding the form
+              ),
+            ),
+            // width: MediaQuery.of(context).size.width,
+            // height: 500,
+            // color: Colors.white,
+            // child: RecipeForm(),
           ),
     );
   }
