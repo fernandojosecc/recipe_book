@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   Future<List<dynamic>> fetchRecipes() async {
-    final url = Uri.parse('http://10.0.2.2:12346/recipes');
+    final url = Uri.parse('http://localhost:12346/recipes');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
