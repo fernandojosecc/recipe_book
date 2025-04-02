@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:recipe_book/providers/recipes_provider.dart';
 import 'package:recipe_book/screens/home_screen.dart';
 
 void main() => runApp(const MyApp());
@@ -8,11 +10,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner:
-          false, //Is the strap at the corner that says DEBUG
-      title: 'Hola Mundo',
-      home: RecipeBook(),
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => RecipesProvider())],
+      child: MaterialApp(
+        debugShowCheckedModeBanner:
+            false, //Is the strap at the corner that says DEBUG
+        title: 'Hola Mundo',
+        home: RecipeBook(),
+      ),
     );
   }
 }
@@ -31,7 +36,7 @@ class RecipeBook extends StatelessWidget {
           bottom: TabBar(
             indicatorColor: Colors.white,
             labelColor: Colors.white,
-            unselectedLabelColor: Colors.red,
+            unselectedLabelColor: Colors.pink,
             tabs: [
               Tab(icon: Icon(Icons.home), text: 'Home'),
               Tab(icon: Icon(Icons.person), text: 'Profile'),
