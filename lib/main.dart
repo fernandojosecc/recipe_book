@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_book/providers/recipes_provider.dart';
 import 'package:recipe_book/screens/home_screen.dart';
+import 'package:recipe_book/screens/favorites_recipes.dart';
 
 void main() => runApp(const MyApp());
 
@@ -39,13 +40,12 @@ class RecipeBook extends StatelessWidget {
             unselectedLabelColor: Colors.pink,
             tabs: [
               Tab(icon: Icon(Icons.home), text: 'Home'),
-              Tab(icon: Icon(Icons.person), text: 'Profile'),
-              Tab(icon: Icon(Icons.search), text: 'Search'),
+              Tab(icon: Icon(Icons.favorite), text: 'Favorite'),
               Tab(icon: Icon(Icons.exit_to_app), text: 'Exit'),
             ],
           ),
         ),
-        body: TabBarView(children: [HomeScreen()]),
+        body: TabBarView(children: [HomeScreen(), FavoritesRecipes()]),
       ),
     );
   }
