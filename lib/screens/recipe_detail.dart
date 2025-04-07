@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_book/models/recipe_model.dart';
@@ -53,6 +55,17 @@ class _RecipeDetailState extends State<RecipeDetail> {
           ), //Condition to add on favorite
         ],
       ),
+      body: Padding(padding: EdgeInsets.all(18),
+      child: Column(children: [
+        Image.network(widget.recipesData.image_link),
+        Text(widget.recipesData.name),
+        SizedBox(height: 8,),
+        Text("by ${widget.recipesData.name}"),
+        SizedBox(height: 8,),
+        const Text("Recipes steps: ")
+        for (var step in widget.recipesData.recipeSteps) Text("- $step"),
+      ],),),
+
     );
   }
 }
