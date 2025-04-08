@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_book/models/recipe_model.dart';
 import 'package:recipe_book/providers/recipes_provider.dart';
 import 'package:recipe_book/screens/recipe_detail.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavoritesRecipes extends StatelessWidget {
   const FavoritesRecipes({super.key});
@@ -16,7 +17,7 @@ class FavoritesRecipes extends StatelessWidget {
           final favoritesRecipes = recipeProvider.favoriteRecipe;
 
           return favoritesRecipes.isEmpty
-              ? Center(child: Text('No favorites recipes'))
+              ? Center(child: Text(AppLocalizations.of(context)!.noRecipes))
               : ListView.builder(
                 itemCount: favoritesRecipes.length,
                 itemBuilder: (context, index) {
