@@ -1,42 +1,31 @@
-import 'package:flutter/material.dart';
-
 class Recipe {
-  int id;
-  String name;
-  String author;
-  String imageLink;
-  List<String> recipeSteps;
+  final int id;
+  final String title;
+  final String description;
+  final String imageUrl;
 
   Recipe({
     required this.id,
-    required this.name,
-    required this.author,
-    required this.imageLink,
-    required this.recipeSteps,
+    required this.title,
+    required this.description,
+    required this.imageUrl,
   });
 
   factory Recipe.fromJSON(Map<String, dynamic> json) {
     return Recipe(
-      id: json['id'],
-      name: json['name'],
-      author: json['author'],
-      imageLink: json['image_link'],
-      recipeSteps: List<String>.from(json['recipe']),
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
-      'author': author,
-      'image_link': imageLink,
-      'recipe': recipeSteps,
+      'title': title,
+      'description': description,
+      'imageUrl': imageUrl,
     };
-  }
-
-  @override
-  String toString() {
-    return 'Recipe{id: $id,name: $name, author: $author, image_link: $imageLink , recipe: $recipeSteps }';
   }
 }

@@ -1,10 +1,20 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:recipe_book/models/recipe_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:recipe_book/models/recipe_model.dart';
 
 class RecipesProvider extends ChangeNotifier {
+  int _currentPageIndex = 0;
+
+  int get currentPageIndex => _currentPageIndex;
+
+  void updatePageIndex(int index) {
+    if (index != _currentPageIndex) {
+      _currentPageIndex = index;
+      notifyListeners();
+    }
+  }
+
   bool isLoading = false;
   List<Recipe> recipes = [];
   List<Recipe> favoriteRecipe = [];
@@ -13,9 +23,7 @@ class RecipesProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final url = Uri.parse(
-      'https://run.mocky.io/v3/41fa88db-52c2-4fbd-be45-da2c26c1ae55',
-    );
+    final url = Uri.parse('http://localhost:12346/recipes');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -28,7 +36,7 @@ class RecipesProvider extends ChangeNotifier {
         recipes = [];
       }
     } catch (e) {
-      print('Error in request');
+      print('Error in request: $e');
       recipes = [];
     } finally {
       isLoading = false;
@@ -38,9 +46,8 @@ class RecipesProvider extends ChangeNotifier {
 
   Future<void> toggleFavoriteStatus(Recipe recipe) async {
     final isFavorite = favoriteRecipe.contains(recipe);
-
+    final url = Uri.parse('http://localhost:12346/recipes');
     try {
-      final url = Uri.parse('http://localhost:12346/recipes');
       final response =
           isFavorite
               ? await http.delete(url, body: json.encode({"id": recipe.id}))
@@ -57,6 +64,26 @@ class RecipesProvider extends ChangeNotifier {
       }
     } catch (e) {
       print('Error updating favorite status $e');
+    }
+  }
+
+  Future<void> addRecipe(Recipe recipe) async {
+    final url = Uri.parse('http://localhost:12346/recipes');
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(recipe.toJson()),
+      );
+
+      if (response.statusCode == 200) {
+        recipes.add(recipe);
+        notifyListeners();
+      } else {
+        throw Exception('Failed to add recipe');
+      }
+    } catch (e) {
+      print('Error adding recipe: $e');
     }
   }
 }
