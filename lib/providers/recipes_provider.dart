@@ -12,8 +12,10 @@ class RecipesProvider extends ChangeNotifier {
   Future<void> fetchRecipes() async {
     isLoading = true;
     notifyListeners();
-    //10.0.0.2.2 for mobile
-    final url = Uri.parse('http://localhost:12346/recipes');
+
+    final url = Uri.parse(
+      'https://run.mocky.io/v3/41fa88db-52c2-4fbd-be45-da2c26c1ae55',
+    );
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -38,7 +40,7 @@ class RecipesProvider extends ChangeNotifier {
     final isFavorite = favoriteRecipe.contains(recipe);
 
     try {
-      final url = Uri.parse('http://localhost:12346/favorites');
+      final url = Uri.parse('http://localhost:12346/recipes');
       final response =
           isFavorite
               ? await http.delete(url, body: json.encode({"id": recipe.id}))
@@ -54,7 +56,7 @@ class RecipesProvider extends ChangeNotifier {
         throw Exception('Failed to update favorite recipes');
       }
     } catch (e) {
-      print('Error updating favorite status $e :/');
+      print('Error updating favorite status $e');
     }
   }
 }

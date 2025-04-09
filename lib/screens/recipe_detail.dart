@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_book/models/recipe_model.dart';
@@ -13,7 +11,8 @@ class RecipeDetail extends StatefulWidget {
   _RecipeDetailState createState() => _RecipeDetailState();
 }
 
-class _RecipeDetailState extends State<RecipeDetail> {
+class _RecipeDetailState extends State<RecipeDetail>
+    with SingleTickerProviderStateMixin {
   bool isFavorite = false;
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
@@ -43,6 +42,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
       context,
       listen: false,
     ).favoriteRecipe.contains(widget.recipesData);
+    ;
   }
 
   @override
@@ -58,9 +58,9 @@ class _RecipeDetailState extends State<RecipeDetail> {
           widget.recipesData.name,
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.orange,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
@@ -81,24 +81,52 @@ class _RecipeDetailState extends State<RecipeDetail> {
               scale: _scaleAnimation,
               child: Icon(
                 isFavorite ? Icons.favorite : Icons.favorite_border,
-                key: ValueKey<bool>(isFavorite),
                 color: Colors.red,
               ),
             ),
-          ), //Condition to add on favorite
+          ),
         ],
       ),
       body: Padding(
         padding: EdgeInsets.all(18),
         child: Column(
           children: [
-            Image.network(widget.recipesData.image_link),
-            Text(widget.recipesData.name),
+            Image.network(widget.recipesData.imageLink),
             SizedBox(height: 8),
-            Text("by ${widget.recipesData.author}"),
+            Text(
+              widget.recipesData.name,
+              style: TextStyle(
+                color: Colors.orange,
+                fontFamily: 'Quicksand',
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            ),
             SizedBox(height: 8),
-            const Text("Recipes steps: "),
-            for (var step in widget.recipesData.recipeSteps) Text("- $step"),
+            Text(
+              "by ${widget.recipesData.author}",
+              style: TextStyle(
+                fontFamily: 'Quicksand',
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(height: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Recipes steps:',
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+                for (var step in widget.recipesData.recipeSteps)
+                  Text("- $step"),
+              ],
+            ),
           ],
         ),
       ),
