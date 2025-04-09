@@ -1,34 +1,46 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:recipe_book/models/recipe_model.dart';
 import 'package:http/http.dart' as http;
+import '../models/recipe_model.dart';
 
 class RecipesProvider extends ChangeNotifier {
   bool isLoading = false;
   List<Recipe> recipes = [];
   List<Recipe> favoriteRecipe = [];
 
+  // On web we talk to localhost; on Android emulator use 10.0.2.2
+  final String _host = kIsWeb ? 'localhost' : '10.0.2.2';
+  final int _port = 12346;
+
+  Uri get _recipesUri => Uri.http('$_host:$_port', '/recipes');
+  Uri get _favoritesUri => Uri.http('$_host:$_port', '/favorites');
+
   Future<void> fetchRecipes() async {
     isLoading = true;
     notifyListeners();
-
-    final url = Uri.parse(
-      'https://run.mocky.io/v3/41fa88db-52c2-4fbd-be45-da2c26c1ae55',
-    );
     try {
-      final response = await http.get(url);
+      final response = await http.get(_recipesUri);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         recipes = List<Recipe>.from(
-          data['recipes'].map((recipe) => Recipe.fromJSON(recipe)),
+          data['recipes'].asMap().entries.map((e) {
+            final json = e.value;
+            return Recipe(
+              id: e.key,
+              name: json['name'],
+              author: json['author'],
+              imageLink: json['image_link'],
+              recipeSteps: List<String>.from(json['recipe']),
+            );
+          }),
         );
       } else {
-        print('Error ${response.statusCode}');
+        debugPrint('Error ${response.statusCode}');
         recipes = [];
       }
     } catch (e) {
-      print('Error in request');
+      debugPrint('Error fetching recipes: $e');
       recipes = [];
     } finally {
       isLoading = false;
@@ -38,15 +50,17 @@ class RecipesProvider extends ChangeNotifier {
 
   Future<void> toggleFavoriteStatus(Recipe recipe) async {
     final isFavorite = favoriteRecipe.contains(recipe);
-
     try {
-      final url = Uri.parse(
-        'https://run.mocky.io/v3/41fa88db-52c2-4fbd-be45-da2c26c1ae55',
-      );
       final response =
           isFavorite
-              ? await http.delete(url, body: json.encode({"id": recipe.id}))
-              : await http.post(url, body: json.encode(recipe.toJson()));
+              ? await http.delete(
+                _favoritesUri,
+                body: json.encode({'id': recipe.id}),
+              )
+              : await http.post(
+                _favoritesUri,
+                body: json.encode(recipe.toJson()),
+              );
       if (response.statusCode == 200) {
         if (isFavorite) {
           favoriteRecipe.remove(recipe);
@@ -55,10 +69,10 @@ class RecipesProvider extends ChangeNotifier {
         }
         notifyListeners();
       } else {
-        throw Exception('Failed to update favorite recipes');
+        throw Exception('Failed to update favorites (${response.statusCode})');
       }
     } catch (e) {
-      print('Error updating favorite status $e');
+      debugPrint('Error updating favorite status: $e');
     }
   }
 }
