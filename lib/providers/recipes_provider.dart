@@ -22,7 +22,11 @@ class RecipesProvider extends ChangeNotifier {
   Future<void> fetchRecipes() async {
     isLoading = true;
     notifyListeners();
+<<<<<<< HEAD
 
+=======
+    //10.0.0.2.2 for mobile
+>>>>>>> parent of 640eabf (Fixing errors)
     final url = Uri.parse('http://localhost:12346/recipes');
     try {
       final response = await http.get(url);
@@ -48,6 +52,10 @@ class RecipesProvider extends ChangeNotifier {
     final isFavorite = favoriteRecipe.contains(recipe);
     final url = Uri.parse('http://localhost:12346/recipes');
     try {
+<<<<<<< HEAD
+=======
+      final url = Uri.parse('http://localhost:12346/favorites');
+>>>>>>> parent of 640eabf (Fixing errors)
       final response =
           isFavorite
               ? await http.delete(url, body: json.encode({"id": recipe.id}))
@@ -63,7 +71,7 @@ class RecipesProvider extends ChangeNotifier {
         throw Exception('Failed to update favorite recipes');
       }
     } catch (e) {
-      print('Error updating favorite status $e');
+      print('Error updating favorite status $e :/');
     }
   }
 

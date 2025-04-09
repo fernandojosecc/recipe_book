@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_book/providers/recipes_provider.dart';
 import 'package:recipe_book/screens/recipe_detail.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -81,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                   width: 100,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.network(recipe.imageLink, fit: BoxFit.cover),
+                    child: Image.network(recipe.image_link, fit: BoxFit.cover),
                   ),
                 ),
                 const SizedBox(width: 26),
@@ -100,10 +101,7 @@ class HomeScreen extends StatelessWidget {
                     Container(height: 2, width: 75, color: Colors.orange),
                     Text(
                       'By ${recipe.author}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Quicksand',
-                      ),
+                      style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
                     ),
                     const SizedBox(height: 4),
                   ],
