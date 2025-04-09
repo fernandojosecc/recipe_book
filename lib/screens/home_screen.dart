@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                   width: 100,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.network(recipe.image_link, fit: BoxFit.cover),
+                    child: Image.network(recipe.imageLink, fit: BoxFit.cover),
                   ),
                 ),
                 const SizedBox(width: 26),
@@ -101,7 +101,10 @@ class HomeScreen extends StatelessWidget {
                     Container(height: 2, width: 75, color: Colors.orange),
                     Text(
                       'By ${recipe.author}',
-                      style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Quicksand',
+                      ),
                     ),
                     const SizedBox(height: 4),
                   ],
